@@ -1,0 +1,17 @@
+@import "./variables";
+
+.acerca {
+  background-color: $gris;
+  padding: 3rem;
+  border-radius: 10px;
+
+  h1 {
+    color: $terracota;
+    margin-bottom: 1.5rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+}

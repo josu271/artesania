@@ -1,0 +1,34 @@
+@import "./variables";
+
+.inicio {
+  .hero {
+    background-color: $terracota;
+    color: $blanco;
+    padding: 4rem 2rem;
+    border-radius: 10px;
+    text-align: center;
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .beneficios {
+    text-align: center;
+    h2 {
+      color: $rojo;
+      margin-bottom: 1.5rem;
+    }
+
+    ul {
+      list-style: none;
+      li {
+        background: $gris;
+        padding: 0.8rem;
+        margin-bottom: 0.5rem;
+        border-radius: 6px;
+      }
+    }
+  }
+}

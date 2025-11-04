@@ -1,0 +1,36 @@
+$azul-admin: #1A2B49;
+$gris-claro: #f0f2f5;
+
+.sidebar-private {
+  background-color: $azul-admin;
+  color: white;
+  width: 220px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+
+  h2 {
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      margin-bottom: 1rem;
+      a {
+        color: white;
+        text-decoration: none;
+        &:hover {
+          color: #f9a825;
+        }
+      }
+      &.active a {
+        font-weight: bold;
+        color: #f9a825;
+      }
+    }
+  }
+}

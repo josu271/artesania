@@ -1,0 +1,15 @@
+@import "./variables";
+
+.navbar-public {
+  background-color: $terracota;
+  .navbar-brand {
+    color: $blanco;
+    font-weight: bold;
+  }
+  .nav-link {
+    color: $blanco !important;
+    &:hover {
+      color: $gris !important;
+    }
+  }
+}

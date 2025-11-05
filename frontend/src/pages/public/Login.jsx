@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../assets/styles/public/Login.scss";
+import Register from "./register";
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -46,7 +47,7 @@ export default function Login() {
           Entrar
         </button>
         <p className="mt-3">
-          ¿No tienes cuenta? <a href="#">Regístrate aquí</a>
+          ¿No tienes cuenta? <a href="/register">Regístrate aquí</a>
         </p>
       </form>
     </div>

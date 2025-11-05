@@ -1,0 +1,65 @@
+/* Paleta: terracota, blanco y rojo */
+$terracota: #e2725b;
+$rojo: #c0392b;
+$blanco: #ffffff;
+$gris-claro: #f9f9f9;
+
+.register-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, $terracota 30%, $blanco 70%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-form {
+  background-color: $blanco;
+  width: 100%;
+  max-width: 420px;
+  border: 2px solid rgba(0, 0, 0, 0.05);
+
+  h2 {
+    color: $rojo;
+    font-weight: 600;
+  }
+
+  .form-label {
+    color: #444;
+    font-weight: 500;
+  }
+
+  .form-control {
+    border-radius: 0.5rem;
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+
+    &:focus {
+      border-color: $terracota;
+      box-shadow: 0 0 4px rgba(226, 114, 91, 0.5);
+    }
+  }
+
+  .btn-danger {
+    background-color: $terracota;
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: darken($terracota, 10%);
+      transform: translateY(-1px);
+    }
+  }
+
+  p {
+    color: #555;
+  }
+
+  a {
+    color: $rojo;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

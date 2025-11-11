@@ -1,82 +1,97 @@
-USE artesania_ml;
+USE artesania;
 
 -- =========================================
--- 1️⃣ USUARIOS
+-- USUARIOS
 -- =========================================
-INSERT INTO usuarios (nombre, apellido, correo, contrasena, telefono, direccion, fecha_registro, rol) VALUES
-('Jose', 'Sulla', 'sulla@gmail.com', '123', '987654321', 'Huancayo, Perú', '2025-01-10', 'artesano'),
-('Luis', 'Díaz', 'luis.diaz@example.com', '123', '912345678', 'Huancayo, Perú', '2025-01-12', 'cliente'),
-('María', 'Pérez', 'maria.perez@example.com', '123', '976543210', 'Huancayo, Perú', '2025-02-05', 'artesano'),
-('Carlos', 'Lopez', 'carlos.lopez@example.com', '123', '998877665', 'Huancayo, Perú', '2025-03-01', 'cliente'),
-('Admin', 'Root', 'admin@example.com', '123', '900000000', 'Huancayo, Perú', '2025-01-01', 'administrador');
+INSERT INTO usuarios (nombre, apellido, correo, contrasena, telefono, rol)
+VALUES
+('Jose', 'Sulla', 'sulla@gmail.com', '123', '906983532', 'administrador'),
+('Jordan', 'Vilcahuman', 'vilcahuaman@gmail.com', '123', '912345678', 'artesano'),
+('Jhon', 'Flores', 'flores@gmail.com', '123', '987111222', 'artesano');
 
 -- =========================================
--- 2️⃣ ARTESANOS
+-- CATEGORÍAS
 -- =========================================
-INSERT INTO artesanos (usuario_id, nombre_taller, especialidad, descripcion, experiencia, ubicacion) VALUES
-(1, 'Manos Andinas', 'Tejido', 'Taller especializado en textiles tradicionales del Cusco.', 8, 'Huancayo'),
-(3, 'Cerámica Qori', 'Cerámica', 'Artesanías de arcilla inspiradas en el arte incaico.', 5, 'Huancayo');
+INSERT INTO categorias (nombre, descripcion)
+VALUES
+('Textil', 'Productos elaborados con lana, algodón u otras fibras.'),
+('Cerámica', 'Piezas de barro cocido decoradas artesanalmente.'),
+('Madera', 'Tallados, utensilios y esculturas de madera.'),
+('Joyas', 'Bisutería y accesorios de metales y piedras naturales.'),
+('Cuero', 'Carteras, cinturones y artículos hechos a mano en cuero.');
 
 -- =========================================
--- 3️⃣ CATEGORÍAS
+-- PRODUCTOS
 -- =========================================
-INSERT INTO categorias (nombre, descripcion) VALUES
-('Tejidos', 'Productos elaborados con lana, hilo o fibras naturales.'),
-('Cerámica', 'Objetos modelados y horneados en arcilla.'),
-('Madera tallada', 'Esculturas y utensilios tallados en madera.'),
-('Joyería', 'Accesorios y piezas ornamentales hechas a mano.');
+INSERT INTO productos (nombre, descripcion, precio, stock, categoria_id, usuario_id, imagen_url)
+VALUES
+('Chal Andino', 'Chal tejido a mano con lana de alpaca.', 120.00, 15, 1, 3, '/images/chal.jpg'),
+('Jarrón Inca', 'Jarrón decorativo con motivos incaicos.', 80.50, 10, 2, 3, '/images/jarron.jpg'),
+('Tazón Tallado', 'Tazón de madera de cedro tallado artesanalmente.', 45.00, 8, 3, 3, '/images/tazon.jpg'),
+('Pulsera de Plata', 'Pulsera con diseño tradicional de Cusco.', 95.00, 20, 4, 3, '/images/pulsera.jpg'),
+('Cartera de Cuero', 'Cartera mediana elaborada con cuero natural.', 150.00, 5, 5, 3, '/images/cartera.jpg');
 
 -- =========================================
--- 4️⃣ PRODUCTOS
+-- INVENTARIO
 -- =========================================
-INSERT INTO productos (nombre, descripcion, precio, stock, fecha_creacion, categoria_id, artesano_id, imagen_url) VALUES
-('Chal tejido andino', 'Chal de lana de alpaca con diseños tradicionales.', 75.00, 10, '2025-03-10', 1, 1, 'img/chal.jpg'),
-('Gorro de alpaca', 'Gorro hecho con lana natural, colores andinos.', 45.00, 15, '2025-03-15', 1, 1, 'img/gorro.jpg'),
-('Vasija incaica', 'Vasija de cerámica pintada a mano.', 120.00, 8, '2025-03-12', 2, 2, 'img/vasija.jpg'),
-('Taza artesanal', 'Taza de cerámica con motivos tradicionales.', 35.00, 20, '2025-03-20', 2, 2, 'img/taza.jpg');
+INSERT INTO inventario (producto_id, cantidad_actual, cantidad_minima, cantidad_maxima)
+VALUES
+(1, 15, 5, 30),
+(2, 10, 3, 25),
+(3, 8, 2, 20),
+(4, 20, 5, 40),
+(5, 5, 2, 15);
 
 -- =========================================
--- 5️⃣ INVENTARIO
+-- EVENTOS
 -- =========================================
-INSERT INTO inventario (producto_id, cantidad_actual, cantidad_minima, cantidad_maxima, ultima_actualizacion) VALUES
-(1, 10, 2, 20, '2025-03-15'),
-(2, 15, 3, 25, '2025-03-15'),
-(3, 8, 2, 15, '2025-03-18'),
-(4, 20, 5, 30, '2025-03-18');
+INSERT INTO eventos (nombre, fecha, ubicacion, descripcion)
+VALUES
+('Festival de Artesanía Huancayo', '2025-12-10', 'Huancayo', 'Feria anual de artesanos locales.'),
+('Expo Arte Andino', '2026-01-15', 'Huancayo', 'Exposición regional de arte popular.'),
+('Feria del Cuero', '2025-11-20', 'Huancayo', 'Feria temática dedicada al cuero y calzado.');
 
 -- =========================================
--- 6️⃣ VENTAS
+-- PRODUCTOS x EVENTOS
 -- =========================================
-INSERT INTO ventas (fecha, total, metodo_pago, artesano_id, usuario_id) VALUES
-('2025-03-25', 120.00, 'Tarjeta', 1, 2),
-('2025-03-26', 155.00, 'Efectivo', 2, 4),
-('2025-04-02', 75.00, 'Yape', 1, 4);
+INSERT INTO productos_eventos (producto_id, evento_id)
+VALUES
+(1, 1),
+(2, 1),
+(5, 3);
 
 -- =========================================
--- 7️⃣ DETALLE DE VENTA
+-- VENTAS
 -- =========================================
-INSERT INTO detalle_venta (venta_id, producto_id, cantidad, subtotal) VALUES
-(1, 1, 1, 75.00),
-(1, 2, 1, 45.00),
-(2, 3, 1, 120.00),
-(2, 4, 1, 35.00),
-(3, 1, 1, 75.00);
+INSERT INTO ventas (fecha, total, metodo_pago, artesano_id, usuario_id)
+VALUES
+('2025-10-20 15:30:00', 240.00, 'Tarjeta', 3, 2),
+('2025-11-01 10:15:00', 95.00, 'Efectivo', 3, 2),
+('2025-11-03 14:00:00', 150.00, 'Yape', 3, 2);
 
 -- =========================================
--- 8️⃣ PREDICCIONES (Machine Learning)
+-- DETALLE DE VENTA
 -- =========================================
-INSERT INTO predicciones (producto_id, fecha_prediccion, demanda_predicha, precision_modelo, modelo_usado, observaciones) VALUES
-(1, '2025-05-01', 40, 92.5, 'RandomForestRegressor', 'Alta demanda esperada por temporada fría.'),
-(2, '2025-05-01', 35, 89.7, 'XGBoost', 'Demanda estable.'),
-(3, '2025-05-01', 20, 94.1, 'LSTM', 'Demanda decreciente después del festival.'),
-(4, '2025-05-01', 25, 90.3, 'LinearRegression', 'Demanda promedio.');
+INSERT INTO detalle_venta (venta_id, producto_id, cantidad, subtotal)
+VALUES
+(1, 1, 2, 240.00),
+(2, 4, 1, 95.00),
+(3, 5, 1, 150.00);
 
 -- =========================================
--- 9️⃣ LOGS DEL SISTEMA
+-- PREDICCIONES (Machine Learning)
 -- =========================================
-INSERT INTO logs_sistema (usuario_id, accion, fecha, ip_usuario) VALUES
-(1, 'Creó producto Chal tejido andino', '2025-03-10', '192.168.0.10'),
-(3, 'Agregó producto Vasija incaica', '2025-03-12', '192.168.0.15'),
-(2, 'Realizó compra total 120.00', '2025-03-25', '192.168.0.20'),
-(4, 'Realizó compra total 155.00', '2025-03-26', '192.168.0.25'),
-(5, 'Ingresó al panel de administración', '2025-04-01', '192.168.0.5');
+INSERT INTO predicciones (producto_id, fecha_prediccion, demanda_predicha, precision_modelo, modelo_usado, observaciones)
+VALUES
+(1, '2025-11-01', 25, 90.5, 'DecisionTreeRegressor', 'Alta demanda en temporada navideña.'),
+(3, '2025-11-01', 12, 87.3, 'DecisionTreeRegressor', 'Demanda estable en otoño.'),
+(5, '2025-11-01', 8, 85.9, 'DecisionTreeRegressor', 'Stock bajo, sugerir producción.');
+
+-- =========================================
+-- LOGS DEL SISTEMA
+-- =========================================
+INSERT INTO logs_sistema (usuario_id, accion, ip_usuario)
+VALUES
+(1, 'Creación inicial de sistema', '127.0.0.1'),
+(2, 'Gestor registró venta #1', '127.0.0.1'),
+(3, 'Artesano actualizó stock del producto Chal Andino', '127.0.0.1');

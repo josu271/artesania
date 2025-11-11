@@ -2,7 +2,8 @@
 -- BASE DE DATOS: Sistema de Artesanía con Machine Learning
 -- =========================================
 
-CREATE DATABASE IF NOT EXISTS artesania
+DROP DATABASE IF EXISTS artesania;
+CREATE DATABASE artesania
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_general_ci;
 USE artesania;
@@ -12,28 +13,13 @@ USE artesania;
 -- =========================================
 CREATE TABLE usuarios (
   idUsuario INT AUTO_INCREMENT PRIMARY KEY,
-  nombre VARCHAR(100),
+  nombre VARCHAR(100) NOT NULL,
   apellido VARCHAR(100),
-  correo VARCHAR(150) UNIQUE,
-  contrasena VARCHAR(255),
+  correo VARCHAR(150) NOT NULL UNIQUE,
+  contrasena VARCHAR(255) NOT NULL,
   telefono VARCHAR(20),
-  direccion VARCHAR(255),
-  fecha_registro DATETIME,
-  rol VARCHAR(50)
-);
-
--- =========================================
--- TABLA: artesanos
--- =========================================
-CREATE TABLE artesanos (
-  idArtesano INT AUTO_INCREMENT PRIMARY KEY,
-  usuario_id INT,
-  nombre_taller VARCHAR(150),
-  especialidad VARCHAR(100),
-  descripcion TEXT,
-  experiencia INT,
-  ubicacion VARCHAR(150),
-  FOREIGN KEY (usuario_id) REFERENCES usuarios(idUsuario)
+  fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
+  rol ENUM('administrador','gestor','artesano') NOT NULL
 );
 
 -- =========================================
@@ -41,7 +27,7 @@ CREATE TABLE artesanos (
 -- =========================================
 CREATE TABLE categorias (
   idCategoria INT AUTO_INCREMENT PRIMARY KEY,
-  nombre VARCHAR(100),
+  nombre VARCHAR(100) NOT NULL UNIQUE,
   descripcion TEXT
 );
 
@@ -50,16 +36,16 @@ CREATE TABLE categorias (
 -- =========================================
 CREATE TABLE productos (
   idProducto INT AUTO_INCREMENT PRIMARY KEY,
-  nombre VARCHAR(150),
+  nombre VARCHAR(150) NOT NULL,
   descripcion TEXT,
-  precio DECIMAL(10,2),
-  stock INT,
-  fecha_creacion DATETIME,
+  precio DECIMAL(10,2) NOT NULL,
+  stock INT DEFAULT 0,
+  fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
   categoria_id INT,
-  artesano_id INT,
+  usuario_id INT,
   imagen_url VARCHAR(255),
   FOREIGN KEY (categoria_id) REFERENCES categorias(idCategoria),
-  FOREIGN KEY (artesano_id) REFERENCES artesanos(idArtesano)
+  FOREIGN KEY (usuario_id) REFERENCES usuarios(idUsuario)
 );
 
 -- =========================================
@@ -67,12 +53,34 @@ CREATE TABLE productos (
 -- =========================================
 CREATE TABLE inventario (
   idInventario INT AUTO_INCREMENT PRIMARY KEY,
-  producto_id INT,
-  cantidad_actual INT,
-  cantidad_minima INT,
-  cantidad_maxima INT,
-  ultima_actualizacion DATETIME,
+  producto_id INT NOT NULL,
+  cantidad_actual INT DEFAULT 0,
+  cantidad_minima INT DEFAULT 0,
+  cantidad_maxima INT DEFAULT 0,
+  ultima_actualizacion DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (producto_id) REFERENCES productos(idProducto)
+);
+
+-- =========================================
+-- TABLA: eventos
+-- =========================================
+CREATE TABLE eventos (
+  idEvento INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(150) NOT NULL,
+  fecha DATE,
+  ubicacion VARCHAR(255),
+  descripcion TEXT
+);
+
+-- =========================================
+-- TABLA: productos_eventos
+-- =========================================
+CREATE TABLE productos_eventos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  producto_id INT,
+  evento_id INT,
+  FOREIGN KEY (producto_id) REFERENCES productos(idProducto),
+  FOREIGN KEY (evento_id) REFERENCES eventos(idEvento)
 );
 
 -- =========================================
@@ -80,12 +88,12 @@ CREATE TABLE inventario (
 -- =========================================
 CREATE TABLE ventas (
   idVenta INT AUTO_INCREMENT PRIMARY KEY,
-  fecha DATETIME,
-  total DECIMAL(10,2),
+  fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+  total DECIMAL(10,2) NOT NULL,
   metodo_pago VARCHAR(50),
   artesano_id INT,
   usuario_id INT,
-  FOREIGN KEY (artesano_id) REFERENCES artesanos(idArtesano),
+  FOREIGN KEY (artesano_id) REFERENCES usuarios(idUsuario),
   FOREIGN KEY (usuario_id) REFERENCES usuarios(idUsuario)
 );
 
@@ -103,12 +111,12 @@ CREATE TABLE detalle_venta (
 );
 
 -- =========================================
--- TABLA: predicciones (Machine Learning)
+-- TABLA: predicciones
 -- =========================================
 CREATE TABLE predicciones (
   idPrediccion INT AUTO_INCREMENT PRIMARY KEY,
   producto_id INT,
-  fecha_prediccion DATETIME,
+  fecha_prediccion DATETIME DEFAULT CURRENT_TIMESTAMP,
   demanda_predicha INT,
   precision_modelo DECIMAL(5,2),
   modelo_usado VARCHAR(100),
@@ -117,13 +125,13 @@ CREATE TABLE predicciones (
 );
 
 -- =========================================
--- TABLA: logs_sistema (Auditoría)
+-- TABLA: logs_sistema
 -- =========================================
 CREATE TABLE logs_sistema (
   idLog INT AUTO_INCREMENT PRIMARY KEY,
   usuario_id INT,
   accion VARCHAR(255),
-  fecha DATETIME,
+  fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
   ip_usuario VARCHAR(45),
   FOREIGN KEY (usuario_id) REFERENCES usuarios(idUsuario)
 );

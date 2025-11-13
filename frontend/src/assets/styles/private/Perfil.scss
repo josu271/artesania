@@ -1,11 +1,89 @@
-.perfil {
-  h2 {
-    color: #1a2b49;
-    margin-bottom: 1rem;
-  }
+.perfil-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 
   .card {
-    max-width: 400px;
-    background: white;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    margin-bottom: 1.5rem;
+
+    .card-header {
+      background-color: #f8f9fa;
+      border-bottom: 1px solid #dee2e6;
+      padding: 1rem 1.25rem;
+    }
+
+    .card-body {
+      padding: 1.25rem;
+    }
+  }
+
+  .perfil-info {
+    .row {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #f0f0f0;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    .badge {
+      font-size: 0.75em;
+      padding: 0.375em 0.75em;
+    }
+  }
+
+  .form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+  }
+
+  .btn {
+    border-radius: 0.375rem;
+    font-weight: 500;
+    transition: all 0.15s ease-in-out;
+
+    &:disabled {
+      opacity: 0.65;
+    }
+  }
+
+  .alert {
+    border-radius: 0.5rem;
+    border: none;
+
+    &.alert-success {
+      background-color: #d1e7dd;
+      color: #0f5132;
+    }
+
+    &.alert-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+  }
+
+  // Responsive
+  @media (max-width: 768px) {
+    padding: 1rem;
+
+    .perfil-info {
+      .row {
+        > div {
+          margin-bottom: 0.5rem;
+        }
+      }
+    }
+
+    .d-flex.gap-2 {
+      flex-direction: column;
+      
+      .btn {
+        margin-bottom: 0.5rem;
+      }
+    }
   }
 }

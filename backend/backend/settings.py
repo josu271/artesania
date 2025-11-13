@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import datetime
 
 # 📦 Cargar variables desde .env
 load_dotenv()
@@ -25,6 +26,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "api",
     "eventos",
+    "perfil",
 ]
 
 # 🧱 Middleware
@@ -111,4 +113,8 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework.authentication.SessionAuthentication",
     ]
+}
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_ALGORITHM': 'HS256',
 }

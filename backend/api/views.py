@@ -1,28 +1,64 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-from django.db import connection
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+import json
+from .models import Usuario
+import traceback
 
-@api_view(['POST'])
+@csrf_exempt
+@require_http_methods(["POST"])
 def login(request):
-    email = request.data.get('email')
-    password = request.data.get('password')
-
-    # ⚠️ Sin hash (solo para pruebas locales)
-    with connection.cursor() as cursor:
-        cursor.execute(
-            "SELECT idUsuario, nombre, rol FROM usuarios WHERE correo=%s AND contrasena=%s",
-            [email, password]
-        )
-        user = cursor.fetchone()
-
-    if user:
-        data = {
-            "idUsuario": user[0],
-            "nombre": user[1],
-            "rol": user[2],
-            "token": "fakeToken123"
+    try:
+        print("=== INICIANDO LOGIN ===")
+        
+        data = json.loads(request.body)
+        correo = data.get('email')
+        password = data.get('password')
+        
+        print(f"Correo recibido: {correo}")
+        
+        if not correo or not password:
+            return JsonResponse({'error': 'Correo y contraseña son requeridos'}, status=400)
+        
+        try:
+            # Buscar usuario por correo
+            usuario = Usuario.objects.get(correo=correo)
+            print(f"Usuario encontrado: {usuario.nombre}")
+        except Usuario.DoesNotExist:
+            print("Usuario no encontrado")
+            return JsonResponse({'error': 'Credenciales inválidas'}, status=401)
+        
+        # Verificar contraseña
+        print("Verificando contraseña...")
+        password_valido = usuario.check_password(password)
+        print(f"Contraseña válida: {password_valido}")
+        
+        if not password_valido:
+            return JsonResponse({'error': 'Credenciales inválidas'}, status=401)
+        
+        # Generar token JWT usando el método del modelo
+        token = usuario.generate_jwt_token()
+        
+        print("Login exitoso, generando respuesta...")
+        
+        response_data = {
+            'token': token,
+            'usuario': {
+                'id': usuario.idUsuario,
+                'nombre': usuario.nombre,
+                'apellido': usuario.apellido or '',
+                'correo': usuario.correo,
+                'rol': usuario.rol,
+                'telefono': usuario.telefono or ''
+            }
         }
-        return Response(data, status=status.HTTP_200_OK)
-    else:
-        return Response({"error": "Credenciales inválidas"}, status=status.HTTP_401_UNAUTHORIZED)
+        
+        return JsonResponse(response_data)
+        
+    except json.JSONDecodeError as e:
+        print(f"Error JSON: {e}")
+        return JsonResponse({'error': 'JSON inválido'}, status=400)
+    except Exception as e:
+        print(f"Error general en login: {e}")
+        print(traceback.format_exc())
+        return JsonResponse({'error': f'Error del servidor: {str(e)}'}, status=500)

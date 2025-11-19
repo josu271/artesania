@@ -47,20 +47,6 @@ CREATE TABLE productos (
   FOREIGN KEY (categoria_id) REFERENCES categorias(idCategoria),
   FOREIGN KEY (usuario_id) REFERENCES usuarios(idUsuario)
 );
-
--- =========================================
--- TABLA: inventario
--- =========================================
-CREATE TABLE inventario (
-  idInventario INT AUTO_INCREMENT PRIMARY KEY,
-  producto_id INT NOT NULL,
-  cantidad_actual INT DEFAULT 0,
-  cantidad_minima INT DEFAULT 0,
-  cantidad_maxima INT DEFAULT 0,
-  ultima_actualizacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (producto_id) REFERENCES productos(idProducto)
-);
-
 -- =========================================
 -- TABLA: eventos
 -- =========================================

@@ -9,6 +9,7 @@ export default function SidebarPrivate({ onLogout }) {
       <h2>Panel</h2>
       <ul>
         <li className={location.pathname === "/dashboard" ? "active" : ""}><Link to="/dashboard">Dashboard</Link></li>
+        <li className={location.pathname === "/ventas" ? "active" : ""}><Link to="/ventas">Ventas</Link></li>
         <li className={location.pathname === "/inventario" ? "active" : ""}><Link to="/inventario">Inventario</Link></li>
         <li className={location.pathname === "/eventos" ? "active" : ""}><Link to="/eventos">Eventos</Link></li>
         <li className={location.pathname === "/predicciones" ? "active" : ""}><Link to="/predicciones">Predicciones</Link></li>

@@ -10,6 +10,7 @@ import Eventos from "./pages/private/Eventos";
 import Predicciones from "./pages/private/Predicciones";
 import Perfil from "./pages/private/Perfil";
 import Register from "./pages/public/register";
+import Ventas from "./pages/private/Ventas";
 
 export default function App() {
   const isAuthenticated = localStorage.getItem("token"); // simulación de login
@@ -29,6 +30,7 @@ export default function App() {
         {isAuthenticated && (
           <Route element={<PrivateLayout />}>
   <Route path="/dashboard" element={<Dashboard />} />
+  <Route path="/ventas" element={<Ventas />} />
   <Route path="/inventario" element={<Inventario />} />
   <Route path="/eventos" element={<Eventos />} />
   <Route path="/predicciones" element={<Predicciones />} />

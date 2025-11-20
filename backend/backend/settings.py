@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "dashboard",
     "inventario",
     "predicciones",
+    "ventas",
 ]
 
 # 🧱 Middleware

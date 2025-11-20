@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "eventos",
     "perfil",
     "dashboard",
+    "inventario",
 ]
 
 # 🧱 Middleware

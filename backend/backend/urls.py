@@ -7,4 +7,5 @@ urlpatterns = [
     path('api/', include('perfil.urls')),  # Agregar URLs de perfil
     path('api/', include('eventos.urls')),
     path('dashboard/', include('dashboard.urls')),
+    path('api/inventario/', include('inventario.urls')),
 ]

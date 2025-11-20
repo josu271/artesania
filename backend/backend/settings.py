@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "perfil",
     "dashboard",
     "inventario",
+    "predicciones",
 ]
 
 # 🧱 Middleware
